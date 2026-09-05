@@ -4,109 +4,166 @@ using namespace std;
 struct Node
 {
     int data;
-    Node *left;
-    Node *right;
+    Node *left, *right;
 };
 
-Node* insert(Node* root, int value)
+// Function to create a binary tree
+Node *root = NULL;
+class Tree
 {
-    if (root == NULL)
+    public:
+    void insert(Node *&temp,int value)
     {
-        Node* newNode = new Node;
-        newNode->data = value;
-        newNode->left = NULL;
-        newNode->right = NULL;
-        return newNode;
+
+
+
+        if (value == -1)
+        {
+            temp = NULL;
+            return;
+        }
+
+         if(temp==NULL)
+             {
+             temp = new Node;
+             temp->data = value;
+             temp->left = NULL;
+             temp->right = NULL;
+             return;
+            }
+
+         else if(temp->left==NULL)
+              insert(temp->left,value);
+          else
+              insert(temp->right,value);
+
+
+
     }
 
-    if (value < root->data)
-        root->left = insert(root->left, value);
+
+void createTree(int value)
+{
+        insert(root,value);
+}
+
+
+// Inorder Traversal
+void inorder(Node *temp)
+{
+     if (temp == NULL)
+                return;
     else
-        root->right = insert(root->right, value);
-
-    return root;
+    {
+        inorder(temp->left);
+        cout << temp->data << " ";
+        inorder(temp->right);
+    }
 }
 
-void inorder(Node* root)
+// Preorder Traversal
+void preorder(Node *temp)
 {
-    if (root == NULL)
-        return;
-
-    inorder(root->left);
-    cout << root->data << " ";
-    inorder(root->right);
+     if (temp == NULL)
+                return;
+    else
+    {
+        cout << temp->data << " ";
+        preorder(temp->left);
+        preorder(temp->right);
+    }
 }
 
-void preorder(Node* root)
+// Postorder Traversal
+void postorder(Node *temp)
 {
-    if (root == NULL)
-        return;
-
-    cout << root->data << " ";
-    preorder(root->left);
-    preorder(root->right);
+     if (temp == NULL)
+                return;
+    else
+    {
+        postorder(temp->left);
+        postorder(temp->right);
+        cout << temp->data << " ";
+    }
 }
-
-void postorder(Node* root)
-{
-    if (root == NULL)
-        return;
-
-    postorder(root->left);
-    postorder(root->right);
-    cout << root->data << " ";
-}
-
+};
 int main()
 {
-    Node* root = NULL;
-    int choice, value;
+   Tree t;
+    int choice,value;
 
     do
     {
-        cout << "\n1. Insert";
-        cout << "\n2. Inorder";
-        cout << "\n3. Preorder";
-        cout << "\n4. Postorder";
-        cout << "\n5. Exit";
-        cout << "\nEnter choice: ";
+        cout << "\n===== Binary Tree Menu =====";
+        cout << "\n1. Create Binary Tree";
+        cout << "\n2. Insert Node";
+        cout << "\n3. Inorder Traversal";
+        cout << "\n4. Preorder Traversal";
+        cout << "\n5. Postorder Traversal";
+        cout << "\n6. Exit";
+        cout << "\nEnter your choice: ";
         cin >> choice;
 
-        switch(choice)
+        switch (choice)
         {
-            case 1:
-                cout << "Enter value: ";
-                cin >> value;
-                root = insert(root, value);
-                break;
+        case 1:
+            cout << "Enter value (-1 for NULL): ";
+            cin >> value;
+            cout << "\nCreate Binary Tree\n";
+            t.createTree(value);
+            break;
+      case 2:
+          cout << "Enter value (-1 for NULL): ";
+          cin >> value;
+          t.insert(root,value);
 
-            case 2:
-                cout << "Inorder: ";
-                inorder(root);
+            break;
+
+        case 3:
+ if(root == NULL)
+        cout << "Tree is empty!";
+    else
+    {
+
+
+                cout << "Inorder Traversal: ";
+                t.inorder(root);
                 cout << endl;
-                break;
+    }
+            break;
 
-            case 3:
-                cout << "Preorder: ";
-                preorder(root);
+        case 4:
+             if(root == NULL)
+        cout << "Tree is empty!";
+    else
+    {
+                cout << "Preorder Traversal: ";
+                t.preorder(root);
                 cout << endl;
-                break;
+    }
+            break;
 
-            case 4:
-                cout << "Postorder: ";
-                postorder(root);
+        case 5:
+ if(root == NULL)
+        cout << "Tree is empty!";
+    else
+    {
+                cout << "Postorder Traversal: ";
+                t.postorder(root);
                 cout << endl;
-                break;
+    }
+            break;
 
-            case 5:
-                cout << "Exiting...";
-                break;
+        case 6:
+            cout << "Program Exited.";
+            break;
 
-            default:
-                cout << "Invalid choice!";
+        default:
+            cout << "Invalid Choice!";
         }
 
-    } while(choice != 5);
+    } while (choice != 6);
 
     return 0;
 }
+Code of binary tree
