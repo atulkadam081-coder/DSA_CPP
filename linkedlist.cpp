@@ -1,166 +1,160 @@
-
+```cpp
 #include <iostream>
 using namespace std;
 
 struct Node
 {
-    int data;
+    int bookID;
     Node* next;
 };
 
-Node* head = NULL;
-
-
-// Insert node at the end
-void insert(int value)
+class LinkedList
 {
-    Node* newNode = new Node();
+private:
+    Node* head;
 
-    newNode->data = value;
-    newNode->next = NULL;
+public:
 
-    // If list is empty
-    if (head == NULL)
+    // Constructor
+    LinkedList()
     {
+        head = NULL;
+    }
+
+    // Insert at beginning
+    void insertBeginning(int id)
+    {
+        Node* newNode = new Node();
+
+        newNode->bookID = id;
+        newNode->next = head;
+
         head = newNode;
-        return;
+
+        cout << "Book inserted at beginning." << endl;
     }
 
-    // Go to the last node
-    Node* temp = head;
-
-    while (temp->next != NULL)
+    // Insert at end
+    void insertEnd(int id)
     {
-        temp = temp->next;
-    }
+        Node* newNode = new Node();
 
-    // Connect last node to new node
-    temp->next = newNode;
-}
+        newNode->bookID = id;
+        newNode->next = NULL;
 
-
-// Delete the first node
-void deleteNode()
-{
-    if (head == NULL)
-    {
-        cout << "List is empty!\n";
-        return;
-    }
-
-    Node* temp = head;
-
-    head = head->next;
-
-    delete temp;
-
-    cout << "First node deleted.\n";
-}
-
-
-// Recursive traversal
-void display(Node* temp)
-{
-    // Stop when we reach NULL
-    if (temp == NULL)
-    {
-        return;
-    }
-
-    cout << temp->data << " ";
-
-    // Recursively go to next node
-    display(temp->next);
-}
-
-
-// Search for a node
-void search(int value)
-{
-    Node* temp = head;
-
-    while (temp != NULL)
-    {
-        if (temp->data == value)
+        // If list is empty
+        if (head == NULL)
         {
-            cout << value << " found in the list.\n";
+            head = newNode;
+            cout << "Book inserted at end." << endl;
             return;
         }
 
-        temp = temp->next;
+        Node* temp = head;
+
+        while (temp->next != NULL)
+        {
+            temp = temp->next;
+        }
+
+        temp->next = newNode;
+
+        cout << "Book inserted at end." << endl;
     }
 
-    cout << value << " not found in the list.\n";
-}
+    // Delete from beginning
+    void deleteBeginning()
+    {
+        if (head == NULL)
+        {
+            cout << "List is empty!" << endl;
+            return;
+        }
 
+        Node* temp = head;
+
+        head = head->next;
+
+        cout << "Book ID " << temp->bookID
+             << " deleted." << endl;
+
+        delete temp;
+    }
+
+    // Display
+    void display()
+    {
+        if (head == NULL)
+        {
+            cout << "List is empty!" << endl;
+            return;
+        }
+
+        Node* temp = head;
+
+        cout << "Book IDs: ";
+
+        while (temp != NULL)
+        {
+            cout << temp->bookID << " ";
+            temp = temp->next;
+        }
+
+        cout << endl;
+    }
+};
 
 int main()
 {
+    LinkedList list;
+
     int choice;
-    int value;
+    int id;
 
     do
     {
-        cout << "\n----- Singly Linked List -----\n";
-        cout << "1. Insert\n";
-        cout << "2. Delete First Node\n";
-        cout << "3. Display\n";
-        cout << "4. Search\n";
-        cout << "5. Exit\n";
+        cout << "\n----- LIBRARY MENU -----" << endl;
+        cout << "1. Insert at Beginning" << endl;
+        cout << "2. Insert at End" << endl;
+        cout << "3. Delete from Beginning" << endl;
+        cout << "4. Display" << endl;
+        cout << "5. Exit" << endl;
 
         cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice)
         {
-            case 1:
-                cout << "Enter value: ";
-                cin >> value;
+        case 1:
+            cout << "Enter Book ID: ";
+            cin >> id;
+            list.insertBeginning(id);
+            break;
 
-                insert(value);
-                cout << "Node inserted.\n";
-                break;
+        case 2:
+            cout << "Enter Book ID: ";
+            cin >> id;
+            list.insertEnd(id);
+            break;
 
+        case 3:
+            list.deleteBeginning();
+            break;
 
-            case 2:
-                deleteNode();
-                break;
+        case 4:
+            list.display();
+            break;
 
+        case 5:
+            cout << "Exiting..." << endl;
+            break;
 
-            case 3:
-                if (head == NULL)
-                {
-                    cout << "List is empty!\n";
-                }
-                else
-                {
-                    cout << "Linked List: ";
-                    display(head);
-                    cout << endl;
-                }
-                break;
-
-
-            case 4:
-                cout << "Enter value to search: ";
-                cin >> value;
-
-                search(value);
-                break;
-
-
-            case 5:
-                cout << "Exiting...\n";
-                break;
-
-
-            default:
-                cout << "Invalid choice!\n";
+        default:
+            cout << "Invalid choice!" << endl;
         }
 
     } while (choice != 5);
 
-
     return 0;
 }
-
+```
